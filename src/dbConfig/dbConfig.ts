@@ -13,7 +13,7 @@ export async function connect(){
         });
 
         connection.on('error',(error) => {
-            console.log('Mongodb connection error');
+            console.log('Mongodb connection error'+error);
             //TODO Study exit
             process.exit();
             
