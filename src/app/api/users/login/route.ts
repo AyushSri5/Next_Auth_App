@@ -8,6 +8,7 @@ import jwt from "jsonwebtoken";
 
 connect();
 
+
 export async function POST(request:NextRequest){
     try {
         const reqBody=await request.json();
@@ -37,7 +38,17 @@ export async function POST(request:NextRequest){
             email:user.email
         }
         //TODO
-        jwt.sign()
+        const token = await jwt.sign(tokenData, process.env.TOKEN_SECRET!, {expiresIn: "1d"})
+
+        const response = NextResponse.json({
+            message: "Login successful",
+            success: true,
+        })
+        response.cookies.set("token", token, {
+            httpOnly: true, 
+            
+        })
+        return response;
         
     } catch (error:any) {
         return NextResponse.json({error:error.message},{status:500});
